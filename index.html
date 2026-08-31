@@ -2,179 +2,217 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JARVIS AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            background: #05070a;
-            color: #00eaff;
-            font-family: Arial, sans-serif;
-        }
+<title>JARVIS</title>
 
-        .container {
-            width: 90%;
-            max-width: 850px;
-            margin: 50px auto;
-            text-align: center;
-        }
+<style>
+body {
+    margin: 0;
+    background: #05080d;
+    color: #00eaff;
+    font-family: Arial, sans-serif;
+}
 
-        h1 {
-            font-size: 60px;
-            letter-spacing: 10px;
-        }
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
 
-        .status {
-            color: #66ff99;
-            margin-bottom: 25px;
-        }
+h1 {
+    text-align: center;
+    font-size: 60px;
+    letter-spacing: 10px;
+}
 
-        .chat {
-            height: 450px;
-            overflow-y: auto;
-            background: #0b1017;
-            border: 1px solid #00eaff;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: left;
-        }
+.status {
+    text-align: center;
+    color: #00ff88;
+    margin-bottom: 25px;
+}
 
-        .message {
-            margin: 15px 0;
-            padding: 12px;
-            border-radius: 10px;
-        }
+.chat {
+    height: 450px;
+    overflow-y: auto;
+    border: 1px solid #00eaff;
+    border-radius: 15px;
+    padding: 20px;
+    background: #0a1018;
+}
 
-        .jarvis {
-            color: #00eaff;
-            background: #07151b;
-        }
+.msg {
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
 
-        .user {
-            color: white;
-            background: #151515;
-        }
+.jarvis {
+    color: #00eaff;
+    background: #071820;
+}
 
-        .input-area {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
+.user {
+    color: white;
+    background: #151515;
+}
 
-        input {
-            flex: 1;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #00eaff;
-            background: #0b1017;
-            color: white;
-            font-size: 16px;
-        }
+.area {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
 
-        button {
-            padding: 15px 25px;
-            border: none;
-            border-radius: 10px;
-            background: #00eaff;
-            color: #001014;
-            font-weight: bold;
-            cursor: pointer;
-        }
+input {
+    flex: 1;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #00eaff;
+    background: #080d13;
+    color: white;
+    font-size: 16px;
+}
 
-        button:hover {
-            background: white;
-        }
-    </style>
+button {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #00eaff;
+    cursor: pointer;
+    font-weight: bold;
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>JARVIS</h1>
+<h1>JARVIS</h1>
 
-    <div class="status">
-        ● SISTEMA ONLINE
-    </div>
+<div class="status">
+● SISTEMA ONLINE
+</div>
 
-    <div class="chat" id="chat">
+<div class="chat" id="chat">
 
-        <div class="message jarvis">
-            JARVIS: Olá. Estou pronto para conversar.
-        </div>
+<div class="msg jarvis">
+JARVIS: Olá. Estou pronto para ajudar.
+</div>
 
-    </div>
+</div>
 
-    <div class="input-area">
+<div class="area">
 
-        <input
-            id="message"
-            type="text"
-            placeholder="Digite sua mensagem..."
-            onkeydown="if(event.key === 'Enter') enviar()"
-        >
+<input
+id="entrada"
+type="text"
+placeholder="Digite sua pergunta..."
+onkeydown="if(event.key === 'Enter') enviar()"
+>
 
-        <button onclick="enviar()">ENVIAR</button>
+<button onclick="enviar()">ENVIAR</button>
 
-    </div>
+</div>
 
 </div>
 
 <script>
 
-async function enviar() {
+function falar(texto) {
 
-    const input = document.getElementById("message");
+    const voz = new SpeechSynthesisUtterance(texto);
+
+    voz.lang = "pt-BR";
+    voz.rate = 1;
+    voz.pitch = 1;
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(voz);
+}
+
+
+function responder(texto) {
+
+    texto = texto.toLowerCase();
+
+    if (texto.includes("olá") || texto.includes("oi")) {
+
+        return "Olá. É um prazer falar com você.";
+
+    }
+
+    if (texto.includes("seu nome")) {
+
+        return "Meu nome é JARVIS.";
+
+    }
+
+    if (texto.includes("como você está")) {
+
+        return "Estou funcionando perfeitamente.";
+
+    }
+
+    if (texto.includes("horas")) {
+
+        const agora = new Date();
+
+        return "Agora são " +
+        agora.getHours() +
+        " horas e " +
+        agora.getMinutes() +
+        " minutos.";
+
+    }
+
+    if (texto.includes("quem é você")) {
+
+        return "Eu sou o JARVIS, seu assistente virtual.";
+
+    }
+
+    return "Entendi sua mensagem. Minha inteligência artificial completa ainda será conectada ao sistema.";
+
+}
+
+
+function enviar() {
+
+    const entrada = document.getElementById("entrada");
     const chat = document.getElementById("chat");
 
-    const texto = input.value.trim();
+    const texto = entrada.value.trim();
 
-    if (!texto) {
+    if (texto === "") {
         return;
     }
 
     const usuario = document.createElement("div");
-    usuario.className = "message user";
+
+    usuario.className = "msg user";
+
     usuario.innerText = "VOCÊ: " + texto;
 
     chat.appendChild(usuario);
 
-    input.value = "";
+    entrada.value = "";
 
-    const carregando = document.createElement("div");
-    carregando.className = "message jarvis";
-    carregando.innerText = "JARVIS: Pensando...";
+    const respostaTexto = responder(texto);
 
-    chat.appendChild(carregando);
+    const resposta = document.createElement("div");
 
-    try {
+    resposta.className = "msg jarvis";
 
-        const resposta = await fetch("COLOQUE_AQUI_O_ENDERECO_DO_SERVIDOR", {
-            method: "POST",
+    resposta.innerText = "JARVIS: " + respostaTexto;
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+    chat.appendChild(resposta);
 
-            body: JSON.stringify({
-                mensagem: texto
-            })
-        });
-
-        const dados = await resposta.json();
-
-        carregando.innerText = "JARVIS: " + dados.resposta;
-
-    } catch (erro) {
-
-        carregando.innerText =
-            "JARVIS: Não consegui conectar ao servidor.";
-
-    }
+    falar(respostaTexto);
 
     chat.scrollTop = chat.scrollHeight;
+
 }
 
 </script>
@@ -182,4 +220,3 @@ async function enviar() {
 </body>
 </html>
 ```
-
